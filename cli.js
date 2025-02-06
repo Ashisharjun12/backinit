@@ -4,64 +4,71 @@ import fs from 'fs-extra';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import chalk from 'chalk';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-async function createProject() {
-  const { projectName, database } = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'projectName',
-      message: 'Project name:',
-      default: 'backend'
-    },
-    {
-      type: 'list',
-      name: 'database',
-      message: 'Choose database:',
-      choices: ['PostgreSQL', 'MongoDB']
-    }
-  ]);
+async function init() {
+  try {
+    const answers = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'projectName',
+        message: '📁 Project name:',
+        default: 'backend'
+      },
+      {
+        type: 'list',
+        name: 'database',
+        message: '💾 Choose database:',
+        choices: ['PostgreSQL', 'MongoDB']
+      }
+    ]);
 
-  const templatePath = path.join(__dirname, 'templates', 'base');
-  const dbTemplatePath = path.join(__dirname, 'templates', database.toLowerCase());
-  
-  await fs.copy(templatePath, projectName);
-  await fs.copy(dbTemplatePath, projectName, { overwrite: true });
-  
-  // Remove drizzle files if MongoDB selected
-  if (database === 'MongoDB') {
-    const projectPath = path.join(process.cwd(), projectName);
-    await fs.remove(path.join(projectPath, 'migrate.js'));
-    await fs.remove(path.join(projectPath, 'drizzle.config.js'));
-  }
-  
-  // After copying templates
-  const requiredDirs = [
-    'src/models',
-    'src/controllers',
-    'src/routes',
-    'src/middleware',
-    'src/tests',
-    'src/services',
-    'src/security',
-    'src/validations',
+    const templatePath = path.join(
+      __dirname,
+      'templates',
+      answers.database.toLowerCase()
+    );
     
-  ];
+    await fs.copy(templatePath, answers.projectName);
+    
+    // Database-specific operations
+    if (answers.database === 'PostgreSQL') {
+      await addPostgresFiles(answers.projectName);
+    } else {
+      await removeDrizzleFiles(answers.projectName);
+    }
 
+    // Success message
+    console.log(
+      chalk.hex('#00FF00').bold(`
+      🚀 ${chalk.underline('Project created successfully!')} 
+      📂 ${chalk.blue('Directory:')} ${chalk.yellow(answers.projectName)}
+      `)
+    );
 
-  await Promise.all(
-    requiredDirs.map(dir => 
-      fs.ensureDir(path.join(projectName, dir))
-    )
-  );
-  
-  console.log(`\nProject ${projectName} created successfully!`);
-  console.log('Next steps:');
-  console.log(`1. cd ${projectName}`);
-  console.log('2. npm install');
-  console.log('3. Create .env file from .env.example');
-  console.log('4. npm run migrate');
+    console.log(chalk.hex('#34ebd8').bold(`
+      📋 ${chalk.bold('Next steps:')}
+      ${chalk.cyan('1.')} cd ${answers.projectName}
+      ${chalk.cyan('2.')} npm install
+      ${chalk.cyan('3.')} Create .env file from .env.example
+      ${chalk.cyan('4.')} ${answers.database === 'PostgreSQL' ? 'npm run db:migrate' : 'npm run dev'}
+    `));
+
+  } catch (err) {
+    console.log(chalk.red.bold(`
+    ❌ ${chalk.bold('Error:')} ${err.message}
+    `));
+    process.exit(1);
+  }
 }
 
-createProject().catch(console.error); 
+
+async function removeDrizzleFiles(projectName) {
+  const projectPath = path.join(process.cwd(), projectName);
+  await fs.remove(path.join(projectPath, 'migrate.js'));
+  await fs.remove(path.join(projectPath, 'drizzle.config.js'));
+}
+
+init(); 

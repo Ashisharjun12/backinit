@@ -1,15 +1,17 @@
 export async function mergePackageJson(projectPath, database) {
-  const basePkg = await fs.readJson(path.join(projectPath, 'package.json'));
-  const dbPkg = await fs.readJson(path.join(__dirname, `../templates/${database}/package.json`));
-  
-  const merged = {
-    ...basePkg,
-    scripts: { ...basePkg.scripts, ...dbPkg.scripts },
-    dependencies: { ...basePkg.dependencies, ...dbPkg.dependencies },
-    devDependencies: { ...basePkg.devDependencies, ...dbPkg.devDependencies }
-  };
-  
-  await fs.writeJson(path.join(projectPath, 'package.json'), merged, { spaces: 2 });
+  const dbPkg = await fs.readJson(
+    path.join(__dirname, `../templates/${database}/package.json`)
+  );
+  await fs.writeJson(
+    path.join(projectPath, 'package.json'),
+    {
+      name: path.basename(projectPath),
+      version: "1.0.0",
+      type: "module",
+      ...dbPkg
+    },
+    { spaces: 2 }
+  );
 }
 
 export async function copyTemplate(templatePath, targetPath) {

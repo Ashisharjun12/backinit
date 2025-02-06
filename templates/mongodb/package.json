@@ -1,4 +1,9 @@
-{
+{  
+    "name": "{{projectName}}",
+    "type": "module",
+    "version": "1.0.0",
+    "description": "Node.js backend with MongoDB",
+
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js"
