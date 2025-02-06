@@ -25,7 +25,7 @@ export async function mergePackageJson(projectPath, database) {
 }
 
 export async function copyTemplate(templatePath, targetPath) {
-  await fs.copyFile(templatePath, targetPath);
+  await fs.copy(templatePath, targetPath);
   
 
 
