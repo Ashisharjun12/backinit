@@ -17,10 +17,9 @@ export async function mergePackageJson(projectPath, database) {
 export async function copyTemplate(templatePath, targetPath) {
   await fs.copy(templatePath, targetPath);
   
-  // Add empty directories if missing
   const requiredDirs = [
     'src/models',
-    'src/controllers',
+    'src/controllers', 
     'src/routes',
     'src/services',
     'src/middleware',
@@ -28,8 +27,14 @@ export async function copyTemplate(templatePath, targetPath) {
     'src/security',
     'src/validations',
   ];
-  
+
   for (const dir of requiredDirs) {
-    await fs.ensureDir(path.join(targetPath, dir));
+    const fullPath = path.join(targetPath, dir);
+    await fs.ensureDir(fullPath);
+    
+    // Add empty .gitkeep file if directory is empty
+    if ((await fs.readdir(fullPath)).length === 0) {
+      await fs.writeFile(path.join(fullPath, '.gitkeep'), '');
+    }
   }
 } 

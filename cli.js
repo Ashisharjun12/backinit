@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import chalk from 'chalk';
+import { copyTemplate } from './utils/scaffold.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -31,7 +32,7 @@ async function init() {
       answers.database.toLowerCase()
     );
     
-    await fs.copy(templatePath, answers.projectName);
+    await copyTemplate(templatePath, answers.projectName);
     
     // Database-specific operations
     if (answers.database === 'PostgreSQL') {
@@ -62,6 +63,12 @@ async function init() {
     `));
     process.exit(1);
   }
+}
+
+async function addPostgresFiles(projectName) {
+    const projectPath = path.join(process.cwd(), projectName);
+    await fs.copy(path.join(__dirname, 'templates', 'postgres'), projectPath);
+
 }
 
 
