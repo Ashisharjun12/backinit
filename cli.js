@@ -18,7 +18,7 @@ async function createProject() {
     {
       type: 'list',
       name: 'database',
-      message: 'Select database:',
+      message: 'Choose database:',
       choices: ['PostgreSQL', 'MongoDB']
     }
   ]);
