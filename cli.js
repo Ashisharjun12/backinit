@@ -67,7 +67,7 @@ async function init() {
 
 async function addPostgresFiles(projectName) {
     const projectPath = path.join(process.cwd(), projectName);
-    await fs.copy(path.join(__dirname, 'templates', 'postgres'), projectPath);
+    await fs.copy(path.join(__dirname, 'templates', 'postgresql'), projectPath);
 
 }
 
