@@ -36,6 +36,26 @@ async function createProject() {
     await fs.remove(path.join(projectPath, 'drizzle.config.js'));
   }
   
+  // After copying templates
+  const requiredDirs = [
+    'src/models',
+    'src/controllers',
+    'src/routes',
+    'src/middleware',
+    'src/tests',
+    'src/services',
+    'src/security',
+    'src/validations',
+    
+  ];
+
+
+  await Promise.all(
+    requiredDirs.map(dir => 
+      fs.ensureDir(path.join(projectName, dir))
+    )
+  );
+  
   console.log(`\nProject ${projectName} created successfully!`);
   console.log('Next steps:');
   console.log(`1. cd ${projectName}`);

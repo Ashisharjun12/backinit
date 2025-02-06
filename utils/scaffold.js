@@ -10,4 +10,24 @@ export async function mergePackageJson(projectPath, database) {
   };
   
   await fs.writeJson(path.join(projectPath, 'package.json'), merged, { spaces: 2 });
+}
+
+export async function copyTemplate(templatePath, targetPath) {
+  await fs.copy(templatePath, targetPath);
+  
+  // Add empty directories if missing
+  const requiredDirs = [
+    'src/models',
+    'src/controllers',
+    'src/routes',
+    'src/services',
+    'src/middleware',
+    'src/tests',
+    'src/security',
+    'src/validations',
+  ];
+  
+  for (const dir of requiredDirs) {
+    await fs.ensureDir(path.join(targetPath, dir));
+  }
 } 
