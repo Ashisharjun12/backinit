@@ -1,5 +1,5 @@
 {
-  "name": "backend-scaffolder",
+  "name": "backinit",
   "version": "1.0.0",
   "description": "CLI tool to scaffold Node.js backend projects with PostgreSQL/MongoDB support",
   "type": "module",
@@ -18,7 +18,7 @@
     "mongodb",
     "cli"
   ],
-  "author": "Your Name <your.email@example.com>",
+  "author": "Your Name ashishrahul748@gmail.com",
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2",
@@ -27,9 +27,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/backend-scaffolder"
+    "url": "https://github.com/Ashisharjun12/backinit.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/backend-scaffolder/issues"
+    "url": "https://github.com/Ashisharjun12/backinit/issues"
   }
 }
