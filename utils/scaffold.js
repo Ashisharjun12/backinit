@@ -1,7 +1,17 @@
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+
 export async function mergePackageJson(projectPath, database) {
   const dbPkg = await fs.readJson(
     path.join(__dirname, `../templates/${database}/package.json`)
   );
+
   await fs.writeJson(
     path.join(projectPath, 'package.json'),
     {
