@@ -16,7 +16,10 @@
     "nodejs",
     "postgresql",
     "mongodb",
-    "cli"
+    "cli",
+    "drizzle",
+    "backendfolder",
+    "backend folderstructure"
   ],
   "author": "Your Name ashishrahul748@gmail.com",
   "license": "MIT",
@@ -36,5 +39,6 @@
     "cli.js",
     "utils/",
     "templates/"
-  ]
+  ],
+  "preferGlobal": true
 }
