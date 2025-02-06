@@ -1,6 +1,6 @@
 {
   "name": "backinit",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "CLI tool to scaffold Node.js backend projects with PostgreSQL/MongoDB support",
   "type": "module",
   "main": "cli.js",
