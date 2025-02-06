@@ -25,8 +25,10 @@ export async function mergePackageJson(projectPath, database) {
 }
 
 export async function copyTemplate(templatePath, targetPath) {
-  await fs.copy(templatePath, targetPath);
+  await fs.copyFile(templatePath, targetPath);
   
+
+
   const requiredDirs = [
     'src/models',
     'src/controllers', 
