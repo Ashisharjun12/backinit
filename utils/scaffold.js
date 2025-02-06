@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fsExtra from 'fs-extra';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,7 +26,7 @@ export async function mergePackageJson(projectPath, database) {
 }
 
 export async function copyTemplate(templatePath, targetPath) {
-  await fs.copy(templatePath, targetPath);
+  await fsExtra.copy(templatePath, targetPath, { overwrite: true });
   
 
 

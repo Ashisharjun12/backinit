@@ -29,7 +29,7 @@ async function init() {
     const templatePath = path.join(
       __dirname,
       'templates',
-      answers.database.toLowerCase()
+      answers.database === 'PostgreSQL' ? 'postgres' : 'mongodb'
     );
     
     await copyTemplate(templatePath, answers.projectName);

@@ -31,5 +31,10 @@
   },
   "bugs": {
     "url": "https://github.com/Ashisharjun12/backinit/issues"
-  }
+  },
+  "files": [
+    "cli.js",
+    "utils/",
+    "templates/"
+  ]
 }
