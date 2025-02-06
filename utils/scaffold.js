@@ -43,7 +43,7 @@ export async function copyTemplate(templatePath, targetPath) {
 
   for (const dir of requiredDirs) {
     const fullPath = path.join(targetPath, dir);
-    await fs.ensureDir(fullPath);
+    await fsExtra.ensureDir(fullPath);
     
     // Add empty .gitkeep file if directory is empty
     if ((await fs.readdir(fullPath)).length === 0) {
